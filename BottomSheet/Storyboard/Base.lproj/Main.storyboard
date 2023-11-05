@@ -32,6 +32,7 @@
                             <constraint firstItem="qEj-H9-y95" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HTk-Bc-VyY"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="button" destination="qEj-H9-y95" id="KtF-YF-sQD"/>
                     </connections>

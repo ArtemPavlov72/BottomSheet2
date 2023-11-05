@@ -58,7 +58,8 @@ final class ResizeViewController: UITabBarController {
 
 private extension ResizeViewController {
   func setupDefaultSettings() {
-    view.backgroundColor = UIColor(red: 0.90, green: 0.90, blue: 0.90, alpha: 1)
+    tabBar.isHidden = true
+    view.backgroundColor = .systemGray6
 
     contentSizeLabel.textAlignment = .center
 
