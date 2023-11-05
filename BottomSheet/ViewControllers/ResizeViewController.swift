@@ -93,9 +93,17 @@ private extension ResizeViewController {
 
     currentHeight = newValue
     contentSizeLabel.text = "preferredContentHeight = \(currentHeight)"
-    preferredContentSize = CGSize(
-      width: UIScreen.main.bounds.width,
-      height: newValue
+
+    /// animation:
+
+    UIView.animate(
+      withDuration: 0.5,
+      animations: { [self] in
+        preferredContentSize = CGSize(
+          width: UIScreen.main.bounds.width,
+          height: newValue
+        )
+      }
     )
   }
 }
