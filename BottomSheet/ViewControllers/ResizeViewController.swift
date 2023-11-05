@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ResizeViewController: UITabBarController {
+final class ResizeViewController: UITabBarController {
 
   // MARK: - Private Properties
 

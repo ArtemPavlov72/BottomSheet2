@@ -16,6 +16,13 @@
 		AC690CE02AF2685400138E0B /* ResizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CDF2AF2685400138E0B /* ResizeViewController.swift */; };
 		AC690CE22AF26DED00138E0B /* ButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CE12AF26DED00138E0B /* ButtonAction.swift */; };
 		AC690CEA2AF3B3B700138E0B /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CE92AF3B3B700138E0B /* UIButton.swift */; };
+		AC690CED2AF3C32400138E0B /* BottomSheetTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CEC2AF3C32400138E0B /* BottomSheetTransitioningDelegate.swift */; };
+		AC690CEF2AF3C38400138E0B /* BottomSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CEE2AF3C38400138E0B /* BottomSheetPresentationController.swift */; };
+		AC690CF52AF42B7B00138E0B /* ScreenScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CF42AF42B7B00138E0B /* ScreenScale.swift */; };
+		AC690CF72AF7985100138E0B /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CF62AF7985100138E0B /* CGRect.swift */; };
+		AC690CF92AF7991B00138E0B /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CF82AF7991B00138E0B /* CGSize.swift */; };
+		AC690CFB2AF7995500138E0B /* BinaryFloatingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CFA2AF7995500138E0B /* BinaryFloatingPoint.swift */; };
+		AC690CFD2AF799D200138E0B /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CFC2AF799D200138E0B /* CGPoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +37,13 @@
 		AC690CDF2AF2685400138E0B /* ResizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeViewController.swift; sourceTree = "<group>"; };
 		AC690CE12AF26DED00138E0B /* ButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAction.swift; sourceTree = "<group>"; };
 		AC690CE92AF3B3B700138E0B /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		AC690CEC2AF3C32400138E0B /* BottomSheetTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitioningDelegate.swift; sourceTree = "<group>"; };
+		AC690CEE2AF3C38400138E0B /* BottomSheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresentationController.swift; sourceTree = "<group>"; };
+		AC690CF42AF42B7B00138E0B /* ScreenScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenScale.swift; sourceTree = "<group>"; };
+		AC690CF62AF7985100138E0B /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
+		AC690CF82AF7991B00138E0B /* CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
+		AC690CFA2AF7995500138E0B /* BinaryFloatingPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryFloatingPoint.swift; sourceTree = "<group>"; };
+		AC690CFC2AF799D200138E0B /* CGPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +76,7 @@
 		AC690CCA2AF2637000138E0B /* BottomSheet */ = {
 			isa = PBXGroup;
 			children = (
+				AC690CEB2AF3C2E100138E0B /* BottomSheet */,
 				AC690CE62AF2747200138E0B /* ViewControllers */,
 				AC690CE32AF2740C00138E0B /* Helpers */,
 				AC690CE82AF3B3A400138E0B /* Extensions */,
@@ -76,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				AC690CE12AF26DED00138E0B /* ButtonAction.swift */,
+				AC690CF42AF42B7B00138E0B /* ScreenScale.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -120,8 +136,21 @@
 			isa = PBXGroup;
 			children = (
 				AC690CE92AF3B3B700138E0B /* UIButton.swift */,
+				AC690CFC2AF799D200138E0B /* CGPoint.swift */,
+				AC690CF62AF7985100138E0B /* CGRect.swift */,
+				AC690CF82AF7991B00138E0B /* CGSize.swift */,
+				AC690CFA2AF7995500138E0B /* BinaryFloatingPoint.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		AC690CEB2AF3C2E100138E0B /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				AC690CEE2AF3C38400138E0B /* BottomSheetPresentationController.swift */,
+				AC690CEC2AF3C32400138E0B /* BottomSheetTransitioningDelegate.swift */,
+			);
+			path = BottomSheet;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,10 +224,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC690CEF2AF3C38400138E0B /* BottomSheetPresentationController.swift in Sources */,
 				AC690CD02AF2637000138E0B /* MainViewController.swift in Sources */,
 				AC690CCC2AF2637000138E0B /* AppDelegate.swift in Sources */,
+				AC690CFB2AF7995500138E0B /* BinaryFloatingPoint.swift in Sources */,
+				AC690CED2AF3C32400138E0B /* BottomSheetTransitioningDelegate.swift in Sources */,
+				AC690CF52AF42B7B00138E0B /* ScreenScale.swift in Sources */,
 				AC690CE02AF2685400138E0B /* ResizeViewController.swift in Sources */,
+				AC690CFD2AF799D200138E0B /* CGPoint.swift in Sources */,
+				AC690CF92AF7991B00138E0B /* CGSize.swift in Sources */,
 				AC690CE22AF26DED00138E0B /* ButtonAction.swift in Sources */,
+				AC690CF72AF7985100138E0B /* CGRect.swift in Sources */,
 				AC690CCE2AF2637000138E0B /* SceneDelegate.swift in Sources */,
 				AC690CEA2AF3B3B700138E0B /* UIButton.swift in Sources */,
 			);
