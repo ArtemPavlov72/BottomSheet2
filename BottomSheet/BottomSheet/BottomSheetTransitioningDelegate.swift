@@ -7,10 +7,26 @@
 
 import UIKit
 
+protocol BottomSheetPresentationControllerFactory {
+  func makeBottomSheetPresentationController(
+    presentedViewController: UIViewController,
+    presentingViewController: UIViewController?
+  ) -> BottomSheetPresentationController
+}
+
 final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+
+  private weak var presentationController: BottomSheetPresentationController?
+
+  private let factory: BottomSheetPresentationControllerFactory
+
+  init(factory: BottomSheetPresentationControllerFactory) {
+    self.factory = factory
+  }
 
   // MARK: - Public Methods
 
+  ///custom func presentationController, with using "_presentationController" func
   func presentationController(
     forPresented presented: UIViewController,
     presenting: UIViewController?,
@@ -18,19 +34,45 @@ final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransiti
   ) -> UIPresentationController? {
     _presentationController(forPresented: presented, presenting: presenting, source: source)
   }
+
+  // MARK: - UIViewControllerTransitioningDelegate
+
+  func animationController(
+    forPresented presented: UIViewController,
+    presenting: UIViewController,
+    source: UIViewController
+  ) -> UIViewControllerAnimatedTransitioning? {
+    presentationController
+  }
+
+  func animationController(
+    forDismissed dismissed: UIViewController
+  ) -> UIViewControllerAnimatedTransitioning? {
+    presentationController
+  }
 }
 
 // MARK: - Private Methods
 
+/// Calling BottomSheetPresentationController
 private extension BottomSheetTransitioningDelegate {
   func _presentationController(
     forPresented presented: UIViewController,
     presenting: UIViewController?,
     source: UIViewController
   ) -> BottomSheetPresentationController {
-    BottomSheetPresentationController(
+    if let presentationController = presentationController {
+      return presentationController
+    }
+
+    let controller = factory.makeBottomSheetPresentationController(
       presentedViewController: presented,
-      presenting: presenting
+      presentingViewController: presenting
     )
+
+    /// otherwise presentationController will be nil
+    presentationController = controller
+
+    return controller
   }
 }

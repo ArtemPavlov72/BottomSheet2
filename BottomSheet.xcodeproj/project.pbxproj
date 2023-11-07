@@ -23,6 +23,7 @@
 		AC690CF92AF7991B00138E0B /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CF82AF7991B00138E0B /* CGSize.swift */; };
 		AC690CFB2AF7995500138E0B /* BinaryFloatingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CFA2AF7995500138E0B /* BinaryFloatingPoint.swift */; };
 		AC690CFD2AF799D200138E0B /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CFC2AF799D200138E0B /* CGPoint.swift */; };
+		AC690CFF2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CFE2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		AC690CF82AF7991B00138E0B /* CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
 		AC690CFA2AF7995500138E0B /* BinaryFloatingPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryFloatingPoint.swift; sourceTree = "<group>"; };
 		AC690CFC2AF799D200138E0B /* CGPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
+		AC690CFE2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetModalDismissalHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			children = (
 				AC690CEE2AF3C38400138E0B /* BottomSheetPresentationController.swift */,
 				AC690CEC2AF3C32400138E0B /* BottomSheetTransitioningDelegate.swift */,
+				AC690CFE2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC690CEF2AF3C38400138E0B /* BottomSheetPresentationController.swift in Sources */,
+				AC690CFF2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift in Sources */,
 				AC690CD02AF2637000138E0B /* MainViewController.swift in Sources */,
 				AC690CCC2AF2637000138E0B /* AppDelegate.swift in Sources */,
 				AC690CFB2AF7995500138E0B /* BinaryFloatingPoint.swift in Sources */,
