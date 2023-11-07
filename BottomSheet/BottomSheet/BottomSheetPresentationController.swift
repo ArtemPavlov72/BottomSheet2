@@ -34,6 +34,7 @@ final class BottomSheetPresentationController: UIPresentationController {
 
     /// adding shadow, when the bottomSheet opened.
     addSubviews()
+    applyStyle()
   }
 
   public override func presentationTransitionDidEnd(_ completed: Bool) {
@@ -110,7 +111,7 @@ private extension BottomSheetPresentationController {
     }
   }
 
-  private func addSubviews() {
+  func addSubviews() {
     guard let containerView = containerView else {
       assertionFailure()
       return
@@ -118,7 +119,7 @@ private extension BottomSheetPresentationController {
     setupShadingView(containerView: containerView)
   }
 
-  private func setupShadingView(containerView: UIView) {
+  func setupShadingView(containerView: UIView) {
     let shadingView = UIView()
     containerView.addSubview(shadingView)
     shadingView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -132,21 +133,29 @@ private extension BottomSheetPresentationController {
   }
 
   @objc
-  private func handleShadingViewTapGesture() {
+  func handleShadingViewTapGesture() {
     dismissIfPossible()
   }
 
-  private func removeSubviews() {
+  func removeSubviews() {
     shadingView?.removeFromSuperview()
     shadingView = nil
   }
 
-  private func dismissIfPossible() {
+  func dismissIfPossible() {
     let canBeDismissed = state == .presented
 
     if canBeDismissed {
       dismissalHandler.performDismissal(animated: true)
     }
+  }
+
+  /// cornerRadius for custon bottomList
+  func applyStyle() {
+    guard presentedViewController.isViewLoaded else { return }
+
+    presentedViewController.view.clipsToBounds = true
+    presentedViewController.view.layer.cornerRadius = Style.cornerRadius
   }
 }
 
@@ -161,7 +170,7 @@ private extension BottomSheetPresentationController {
   }
 }
 
-// MARK: - BottomSheetPresentationController style
+// MARK: - Appearance
 
 private extension BottomSheetPresentationController {
   enum Style {
