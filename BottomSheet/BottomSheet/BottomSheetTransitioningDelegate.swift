@@ -35,7 +35,7 @@ final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransiti
     _presentationController(forPresented: presented, presenting: presenting, source: source)
   }
 
-  // MARK: - UIViewControllerTransitioningDelegate
+  // MARK: - UIViewControllerTransitioningDelegate (Animation of bottomSheet)
 
   func animationController(
     forPresented presented: UIViewController,
@@ -49,6 +49,16 @@ final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransiti
     forDismissed dismissed: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
     presentationController
+  }
+
+  // MARK: - swiping for bottomSheet
+
+  func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+      presentationController?.interactiveTransitioning
+  }
+
+  func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+      presentationController?.interactiveTransitioning
   }
 }
 

@@ -9,11 +9,20 @@ import UIKit
 
 final class BottomSheetPresentationController: UIPresentationController {
 
+  // MARK: - Public
+  var interactiveTransitioning: UIViewControllerInteractiveTransitioning? {
+      interactionController
+  }
+
+
+  // MARK: - Private
   private let dismissalHandler: BottomSheetModalDismissalHandler
 
   private var state: State = .dismissed
 
   private var pullBar: PullBar?
+
+  private var interactionController: UIPercentDrivenInteractiveTransition?
   
   /// shadow
   private var shadingView: UIView?
@@ -37,8 +46,11 @@ final class BottomSheetPresentationController: UIPresentationController {
     applyStyle()
   }
 
+  ///VC fully presented
   public override func presentationTransitionDidEnd(_ completed: Bool) {
     if completed {
+      setupGesturesForPresentedView()
+
       state = .presented
     } else {
       state = .dismissed
@@ -108,6 +120,7 @@ private extension BottomSheetPresentationController {
     let targetFrame = targetFrameForPresentedView()
     if !oldFrame.isAlmostEqual(to: targetFrame) {
       presentedView.frame = targetFrame
+      pullBar?.frame.origin.y = presentedView.frame.minY - Style.pullBarHeight + pixelSize
     }
   }
 
@@ -117,6 +130,7 @@ private extension BottomSheetPresentationController {
       return
     }
     setupShadingView(containerView: containerView)
+    setupPullBar(containerView: containerView)
   }
 
   func setupShadingView(containerView: UIView) {
@@ -140,6 +154,8 @@ private extension BottomSheetPresentationController {
   func removeSubviews() {
     shadingView?.removeFromSuperview()
     shadingView = nil
+    pullBar?.removeFromSuperview()
+    pullBar = nil
   }
 
   func dismissIfPossible() {
@@ -150,12 +166,116 @@ private extension BottomSheetPresentationController {
     }
   }
 
-  /// cornerRadius for custon bottomList
+  private func setupPullBar(containerView: UIView) {
+      let pullBar = PullBar()
+      pullBar.frame.size = CGSize(width: containerView.frame.width, height: Style.pullBarHeight)
+      containerView.addSubview(pullBar)
+
+      self.pullBar = pullBar
+  }
+
+  /// cornerRadius for custom bottomList
   func applyStyle() {
     guard presentedViewController.isViewLoaded else { return }
 
     presentedViewController.view.clipsToBounds = true
     presentedViewController.view.layer.cornerRadius = Style.cornerRadius
+  }
+}
+
+// MARK: - custom logic for swipe-clossing bottomList (UISwipeGestureRecognizer)
+
+private extension BottomSheetPresentationController {
+  func setupGesturesForPresentedView() {
+    setupPanGesture(for: presentedView)
+    setupPanGesture(for: pullBar)
+  }
+
+  func setupPanGesture(for view: UIView?) {
+    guard let view = view else { return }
+
+    let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+    view.addGestureRecognizer(panRecognizer)
+  }
+
+  @objc
+  func handlePanGesture(_ panGesture: UIPanGestureRecognizer) {
+    switch panGesture.state {
+    case .began:
+      processPanGestureBegan(panGesture)
+    case .changed:
+      processPanGestureChanged(panGesture)
+    case .ended:
+      processPanGestureEnded(panGesture)
+    case .cancelled:
+      processPanGestureCancelled(panGesture)
+    default:
+      break
+    }
+  }
+
+  /// processPanGestureBegan
+  func processPanGestureBegan(_ panGesture: UIPanGestureRecognizer) {
+    startInteractiveTransition()
+  }
+
+  private func startInteractiveTransition() {
+    interactionController = UIPercentDrivenInteractiveTransition()
+
+    presentingViewController.dismiss(animated: true) { [weak self] in
+      guard let self = self else { return }
+
+      if self.presentingViewController.presentedViewController !== self.presentedViewController {
+        self.dismissalHandler.performDismissal(animated: true)
+      }
+    }
+  }
+
+  ///processPanGestureChanged
+  func processPanGestureChanged(_ panGesture: UIPanGestureRecognizer) {
+    let translation = panGesture.translation(in: nil)
+    updateInteractionControllerProgress(verticalTranslation: translation.y)
+  }
+
+  func updateInteractionControllerProgress(verticalTranslation: CGFloat) {
+    guard let presentedView = presentedView else { return }
+
+    let progress = verticalTranslation / presentedView.bounds.height
+    interactionController?.update(progress)
+  }
+
+  ///processPanGestureEnded
+  ///we must know: close bottomSheet or just scroll?
+  func processPanGestureEnded(_ panGesture: UIPanGestureRecognizer) {
+    let velocity = panGesture.velocity(in: presentedView)
+    let translation = panGesture.translation(in: presentedView)
+    endInteractiveTransition(verticalVelocity: velocity.y, verticalTranslation: translation.y)
+  }
+
+  func endInteractiveTransition(verticalVelocity: CGFloat, verticalTranslation: CGFloat) {
+    guard let presentedView = presentedView else { return }
+
+    /// logic of bottomSheet's deceleration
+    let deceleration = 800.0 * (verticalVelocity > 0 ? -1.0 : 1.0)
+    let finalProgress = (verticalTranslation - 0.5 * verticalVelocity * verticalVelocity / CGFloat(deceleration))
+    / presentedView.bounds.height
+    let isThresholdPassed = finalProgress < 0.5
+
+    endInteractiveTransition(isCancelled: isThresholdPassed)
+  }
+
+  func endInteractiveTransition(isCancelled: Bool) {
+    if isCancelled {
+      interactionController?.cancel()
+    } else {
+      interactionController?.finish()
+    }
+    interactionController = nil
+  }
+
+  ///processPanGestureCancelled
+  func processPanGestureCancelled(_ panGesture: UIPanGestureRecognizer) {
+    endInteractiveTransition(isCancelled: true)
   }
 }
 
