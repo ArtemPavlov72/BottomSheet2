@@ -97,10 +97,10 @@ private extension ResizeViewController {
       _scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       _scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-      scrollContentView.topAnchor.constraint(equalTo: view.topAnchor),
-      scrollContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-      scrollContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      scrollContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      scrollContentView.topAnchor.constraint(equalTo: _scrollView.topAnchor),
+      scrollContentView.bottomAnchor.constraint(equalTo: _scrollView.bottomAnchor),
+      scrollContentView.leadingAnchor.constraint(equalTo: _scrollView.leadingAnchor),
+      scrollContentView.trailingAnchor.constraint(equalTo: _scrollView.trailingAnchor),
       scrollContentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
       scrollContentView.heightAnchor.constraint(equalToConstant: currentHeight),
 
@@ -116,30 +116,27 @@ private extension ResizeViewController {
   }
 
   func updateContentHeight(newValue: CGFloat) {
-    guard newValue >= 200 && newValue < 5000 else { return }
-
+    guard newValue >= 200 && newValue < 5000 else {
+      return
+    }
 
     contentSizeLabel.text = "preferredContentHeight = \(currentHeight)"
     currentHeight = newValue
 
     let updates = { [self] in
-
       self.scrollContentView.heightConstraint?.constant = newValue
-
-        preferredContentSize = CGSize(
-            width: UIScreen.main.bounds.width,
-            height: newValue
-        )
+      preferredContentSize = CGSize(
+        width: UIScreen.main.bounds.width,
+        height: newValue
+      )
     }
 
     let canAnimateChanges = viewIfLoaded?.window != nil
 
-    print("sss \(scrollContentView.heightConstraint?.constant)")
-
     if canAnimateChanges {
-        UIView.animate(withDuration: 0.25, animations: updates)
+      UIView.animate(withDuration: 0.25, animations: updates)
     } else {
-        updates()
+      updates()
     }
   }
 }
