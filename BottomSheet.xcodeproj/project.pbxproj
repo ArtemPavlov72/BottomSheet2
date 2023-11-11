@@ -24,6 +24,9 @@
 		AC690CFB2AF7995500138E0B /* BinaryFloatingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CFA2AF7995500138E0B /* BinaryFloatingPoint.swift */; };
 		AC690CFD2AF799D200138E0B /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CFC2AF799D200138E0B /* CGPoint.swift */; };
 		AC690CFF2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690CFE2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift */; };
+		AC690D012AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690D002AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift */; };
+		AC690D032AFCEAE000138E0B /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690D022AFCEAE000138E0B /* UIScrollView.swift */; };
+		AC690D052AFE4CA600138E0B /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690D042AFE4CA600138E0B /* UIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		AC690CFA2AF7995500138E0B /* BinaryFloatingPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryFloatingPoint.swift; sourceTree = "<group>"; };
 		AC690CFC2AF799D200138E0B /* CGPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
 		AC690CFE2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetModalDismissalHandler.swift; sourceTree = "<group>"; };
+		AC690D002AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+MulticastDelegate.swift"; sourceTree = "<group>"; };
+		AC690D022AFCEAE000138E0B /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
+		AC690D042AFE4CA600138E0B /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +148,9 @@
 				AC690CF62AF7985100138E0B /* CGRect.swift */,
 				AC690CF82AF7991B00138E0B /* CGSize.swift */,
 				AC690CFA2AF7995500138E0B /* BinaryFloatingPoint.swift */,
+				AC690D002AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift */,
+				AC690D022AFCEAE000138E0B /* UIScrollView.swift */,
+				AC690D042AFE4CA600138E0B /* UIView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -232,12 +241,15 @@
 				AC690CD02AF2637000138E0B /* MainViewController.swift in Sources */,
 				AC690CCC2AF2637000138E0B /* AppDelegate.swift in Sources */,
 				AC690CFB2AF7995500138E0B /* BinaryFloatingPoint.swift in Sources */,
+				AC690D032AFCEAE000138E0B /* UIScrollView.swift in Sources */,
 				AC690CED2AF3C32400138E0B /* BottomSheetTransitioningDelegate.swift in Sources */,
+				AC690D012AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift in Sources */,
 				AC690CF52AF42B7B00138E0B /* ScreenScale.swift in Sources */,
 				AC690CE02AF2685400138E0B /* ResizeViewController.swift in Sources */,
 				AC690CFD2AF799D200138E0B /* CGPoint.swift in Sources */,
 				AC690CF92AF7991B00138E0B /* CGSize.swift in Sources */,
 				AC690CE22AF26DED00138E0B /* ButtonAction.swift in Sources */,
+				AC690D052AFE4CA600138E0B /* UIView.swift in Sources */,
 				AC690CF72AF7985100138E0B /* CGRect.swift in Sources */,
 				AC690CCE2AF2637000138E0B /* SceneDelegate.swift in Sources */,
 				AC690CEA2AF3B3B700138E0B /* UIButton.swift in Sources */,

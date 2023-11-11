@@ -7,18 +7,40 @@
 
 import UIKit
 
+/// Has bottomSheet scrollView or not?
+public protocol ScrollableBottomSheetPresentedController: AnyObject {
+    var scrollView: UIScrollView? { get }
+}
+
 final class BottomSheetPresentationController: UIPresentationController {
 
-  // MARK: - Public
+  // MARK: - Public properties
   var interactiveTransitioning: UIViewControllerInteractiveTransitioning? {
       interactionController
   }
 
-
-  // MARK: - Private
+  // MARK: - Private properties
   private let dismissalHandler: BottomSheetModalDismissalHandler
 
   private var state: State = .dismissed
+
+  private var trackedScrollView: UIScrollView?
+
+  private var isInteractiveTransitionCanBeHandled: Bool {
+      isDragging
+  }
+
+  private var isDragging = false {
+      didSet {
+          if isDragging {
+              assert(interactionController == nil)
+          }
+      }
+  }
+  private var overlayTranslation: CGFloat = 0
+  private var scrollViewTranslation: CGFloat = 0
+  private var lastContentOffsetBeforeDragging: CGPoint = .zero
+  private var didStartDragging = false
 
   private var pullBar: PullBar?
 
@@ -50,6 +72,7 @@ final class BottomSheetPresentationController: UIPresentationController {
   public override func presentationTransitionDidEnd(_ completed: Bool) {
     if completed {
       setupGesturesForPresentedView()
+      setupScrollTrackingIfNeeded()
 
       state = .presented
     } else {
@@ -183,7 +206,105 @@ private extension BottomSheetPresentationController {
   }
 }
 
-// MARK: - custom logic for swipe-clossing bottomList (UISwipeGestureRecognizer)
+// MARK: - Scroll
+
+private extension BottomSheetPresentationController {
+  func setupScrollTrackingIfNeeded() {
+    trackScrollView(inside: presentedViewController)
+  }
+
+  func trackScrollView(inside viewController: UIViewController) {
+      guard
+          let scrollableViewController = viewController as? ScrollableBottomSheetPresentedController,
+          let scrollView = scrollableViewController.scrollView
+      else {
+          return
+      }
+
+      trackedScrollView?.multicastingDelegate.removeDelegate(self)
+      scrollView.multicastingDelegate.addDelegate(self)
+      self.trackedScrollView = scrollView
+  }
+
+  func removeScrollTrackingIfNeeded() {
+      trackedScrollView?.multicastingDelegate.removeDelegate(self)
+      trackedScrollView = nil
+  }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension BottomSheetPresentationController: UIScrollViewDelegate {
+  public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let previousTranslation = scrollViewTranslation
+    scrollViewTranslation = scrollView.panGestureRecognizer.translation(in: scrollView).y
+
+    didStartDragging = shouldDragOverlay(following: scrollView)
+    if didStartDragging {
+      startInteractiveTransitionIfNeeded()
+      overlayTranslation += scrollViewTranslation - previousTranslation
+
+      // Update scrollView contentInset without invoking scrollViewDidScroll(_:)
+      scrollView.bounds.origin.y = -scrollView.adjustedContentInset.top
+
+      updateInteractionControllerProgress(verticalTranslation: overlayTranslation)
+    } else {
+      lastContentOffsetBeforeDragging = scrollView.panGestureRecognizer.translation(in: scrollView)
+    }
+  }
+
+  private func startInteractiveTransitionIfNeeded() {
+    guard interactionController == nil else { return }
+
+    startInteractiveTransition()
+  }
+
+  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    isDragging = true
+  }
+
+  private func shouldDragOverlay(following scrollView: UIScrollView) -> Bool {
+    guard scrollView.isTracking, isInteractiveTransitionCanBeHandled else {
+      return false
+    }
+
+    if let percentComplete = interactionController?.percentComplete {
+      if percentComplete.isAlmostEqual(to: 0) {
+        return scrollView.isContentOriginInBounds && scrollView.scrollsDown
+      }
+
+      return true
+    } else {
+      return scrollView.isContentOriginInBounds && scrollView.scrollsDown
+    }
+  }
+
+  ///user turn up finger from screen after scroll
+  public func scrollViewWillEndDragging(
+    _ scrollView: UIScrollView,
+    withVelocity velocity: CGPoint,
+    targetContentOffset: UnsafeMutablePointer<CGPoint>
+  ) {
+    if didStartDragging {
+      let velocity = scrollView.panGestureRecognizer.velocity(in: scrollView)
+      let translation = scrollView.panGestureRecognizer.translation(in: scrollView)
+      endInteractiveTransition(
+        verticalVelocity: velocity.y,
+        verticalTranslation: translation.y - lastContentOffsetBeforeDragging.y
+      )
+    } else {
+      endInteractiveTransition(isCancelled: true)
+    }
+
+    overlayTranslation = 0
+    scrollViewTranslation = 0
+    lastContentOffsetBeforeDragging = .zero
+    didStartDragging = false
+    isDragging = false
+  }
+}
+
+// MARK: - Custom logic for swipe-clossing bottomList (UISwipeGestureRecognizer)
 
 private extension BottomSheetPresentationController {
   func setupGesturesForPresentedView() {

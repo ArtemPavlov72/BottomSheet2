@@ -15,6 +15,10 @@ final class ResizeViewController: UITabBarController {
 
   private var currentHeight: CGFloat
 
+  private let _scrollView = UIScrollView()
+
+  private let scrollContentView = UIView()
+
   private var buttonStackView = UIStackView()
 
   private lazy var actions = [
@@ -71,12 +75,35 @@ private extension ResizeViewController {
   }
 
   func setupConstraints() {
-    [contentSizeLabel, buttonStackView].forEach {
+    [_scrollView].forEach {
       $0.translatesAutoresizingMaskIntoConstraints = false
       view.addSubview($0)
     }
 
+    [scrollContentView].forEach {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      _scrollView.addSubview($0)
+    }
+
+
+    [contentSizeLabel, buttonStackView].forEach {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      scrollContentView.addSubview($0)
+    }
+
     NSLayoutConstraint.activate([
+      _scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+      _scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      _scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      _scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+      scrollContentView.topAnchor.constraint(equalTo: view.topAnchor),
+      scrollContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      scrollContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      scrollContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      scrollContentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+      scrollContentView.heightAnchor.constraint(equalToConstant: currentHeight),
+
       contentSizeLabel.topAnchor.constraint(equalTo: view.topAnchor),
       contentSizeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       contentSizeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -91,19 +118,36 @@ private extension ResizeViewController {
   func updateContentHeight(newValue: CGFloat) {
     guard newValue >= 200 && newValue < 5000 else { return }
 
-    currentHeight = newValue
+
     contentSizeLabel.text = "preferredContentHeight = \(currentHeight)"
+    currentHeight = newValue
 
-    /// animation:
+    let updates = { [self] in
 
-    UIView.animate(
-      withDuration: 0.5,
-      animations: { [self] in
+      self.scrollContentView.heightConstraint?.constant = newValue
+
         preferredContentSize = CGSize(
-          width: UIScreen.main.bounds.width,
-          height: newValue
+            width: UIScreen.main.bounds.width,
+            height: newValue
         )
-      }
-    )
+    }
+
+    let canAnimateChanges = viewIfLoaded?.window != nil
+
+    print("sss \(scrollContentView.heightConstraint?.constant)")
+
+    if canAnimateChanges {
+        UIView.animate(withDuration: 0.25, animations: updates)
+    } else {
+        updates()
+    }
   }
 }
+
+extension ResizeViewController: ScrollableBottomSheetPresentedController {
+  var scrollView: UIScrollView? {
+    _scrollView
+  }
+}
+
+
