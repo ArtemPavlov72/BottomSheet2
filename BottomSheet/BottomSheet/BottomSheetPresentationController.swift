@@ -253,16 +253,19 @@ extension BottomSheetPresentationController: UIScrollViewDelegate {
     }
   }
 
+  //инициируем интерактивный транзишен, если мы это ещё не сделали.
   private func startInteractiveTransitionIfNeeded() {
     guard interactionController == nil else { return }
 
     startInteractiveTransition()
   }
 
+  /// В этот момент пользователь только-только начал swipe-жест. Запоминаем это состояние через флаг isDragging.
   func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
     isDragging = true
   }
 
+  ///определяем, нужно ли обновить прогресс транзишена.
   private func shouldDragOverlay(following scrollView: UIScrollView) -> Bool {
     guard scrollView.isTracking, isInteractiveTransitionCanBeHandled else {
       return false
@@ -279,19 +282,22 @@ extension BottomSheetPresentationController: UIScrollViewDelegate {
     }
   }
 
-  ///user turn up finger from screen after scroll
+  ///Когда пользователь отрывает палец от экрана после скролла
   public func scrollViewWillEndDragging(
     _ scrollView: UIScrollView,
     withVelocity velocity: CGPoint,
     targetContentOffset: UnsafeMutablePointer<CGPoint>
   ) {
+    //проверяем было ли активно интерактивное закрытие Bottom Sheet перед окончанием скролла.
     if didStartDragging {
+      //используем скорость с замедлением, чтобы решить, отменить или закончить переход.
       let velocity = scrollView.panGestureRecognizer.velocity(in: scrollView)
       let translation = scrollView.panGestureRecognizer.translation(in: scrollView)
       endInteractiveTransition(
         verticalVelocity: velocity.y,
         verticalTranslation: translation.y - lastContentOffsetBeforeDragging.y
       )
+      //отменяем транзишен. Возможна ситуация, что пользователь начал скрывать Bottom Sheet, а потом вернулся к скроллу контента. В этом случае у транзишена нулевой прогресс, и мы точно хотим его отменить.
     } else {
       endInteractiveTransition(isCancelled: true)
     }
