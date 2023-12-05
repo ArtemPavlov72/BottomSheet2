@@ -36,6 +36,30 @@ final class ResizeViewController: UITabBarController {
     }),
   ]
 
+  private let showNextButton: UIButton = {
+      let button = UIButton()
+      button.backgroundColor = .systemBlue
+      button.setTitle("Show next", for: .normal)
+      return button
+  }()
+
+  private let showRootButton: UIButton = {
+      let button = UIButton()
+      button.backgroundColor = .systemPink
+      button.setTitle("Show root", for: .normal)
+      return button
+  }()
+
+  // MARK: - Public Properties
+
+  var isShowNextButtonHidden: Bool {
+      navigationController == nil
+  }
+
+  var isShowRootButtonHidden: Bool {
+      navigationController?.viewControllers.count ?? 0 <= 1
+  }
+
   // MARK: - Init
 
   init(initialHeight: CGFloat) {
