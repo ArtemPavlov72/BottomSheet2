@@ -12,7 +12,7 @@ public protocol ScrollableBottomSheetPresentedController: AnyObject {
     var scrollView: UIScrollView? { get }
 }
 
-final class BottomSheetPresentationController: UIPresentationController {
+public final class BottomSheetPresentationController: UIPresentationController {
 
   // MARK: - Public properties
   var interactiveTransitioning: UIViewControllerInteractiveTransitioning? {
@@ -21,6 +21,7 @@ final class BottomSheetPresentationController: UIPresentationController {
 
   // MARK: - Private properties
   private let dismissalHandler: BottomSheetModalDismissalHandler
+  private let configuration: BottomSheetConfiguration
 
   private var state: State = .dismissed
 
@@ -49,18 +50,20 @@ final class BottomSheetPresentationController: UIPresentationController {
   /// shadow
   private var shadingView: UIView?
 
-  init(
+  public init(
     presentedViewController: UIViewController,
     presentingViewController: UIViewController?,
-    dismissalHandler: BottomSheetModalDismissalHandler
+    dismissalHandler: BottomSheetModalDismissalHandler,
+    configuration: BottomSheetConfiguration
   ) {
     self.dismissalHandler = dismissalHandler
+    self.configuration = configuration
     super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
   }
 
   // MARK: - LifeStyle Methods
 
-  override func presentationTransitionWillBegin() {
+  public override func presentationTransitionWillBegin() {
     state = .presenting
 
     /// adding shadow, when the bottomSheet opened.
@@ -99,15 +102,15 @@ final class BottomSheetPresentationController: UIPresentationController {
   // MARK: - Public Methods
 
   /// changing frame
-  override var frameOfPresentedViewInContainerView: CGRect {
+  public override var frameOfPresentedViewInContainerView: CGRect {
     targetFrameForPresentedView()
   }
 
-  override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
+  public override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
     updatePresentedViewSize()
   }
 
-  override var shouldPresentInFullscreen: Bool {
+  public override var shouldPresentInFullscreen: Bool {
     false
   }
 }
@@ -261,7 +264,7 @@ extension BottomSheetPresentationController: UIScrollViewDelegate {
   }
 
   /// В этот момент пользователь только-только начал swipe-жест. Запоминаем это состояние через флаг isDragging.
-  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+  public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
     isDragging = true
   }
 
@@ -429,11 +432,11 @@ private extension BottomSheetPresentationController {
 // MARK: - Animation for shadow
 
 extension BottomSheetPresentationController: UIViewControllerAnimatedTransitioning {
-  func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+  public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
     0.3
   }
 
-  func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+  public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
     guard
       let sourceViewController = transitionContext.viewController(forKey: .from),
       let destinationViewController = transitionContext.viewController(forKey: .to),

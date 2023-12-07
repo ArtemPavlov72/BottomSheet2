@@ -27,6 +27,8 @@
 		AC690D012AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690D002AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift */; };
 		AC690D032AFCEAE000138E0B /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690D022AFCEAE000138E0B /* UIScrollView.swift */; };
 		AC690D052AFE4CA600138E0B /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690D042AFE4CA600138E0B /* UIView.swift */; };
+		AC69F0E02B21B36E00A220E1 /* UIViewController+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC69F0DF2B21B36E00A220E1 /* UIViewController+Convenience.swift */; };
+		AC69F0E22B21E0A900A220E1 /* BottomSheetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC69F0E12B21E0A900A220E1 /* BottomSheetConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		AC690D002AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+MulticastDelegate.swift"; sourceTree = "<group>"; };
 		AC690D022AFCEAE000138E0B /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
 		AC690D042AFE4CA600138E0B /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		AC69F0DF2B21B36E00A220E1 /* UIViewController+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Convenience.swift"; sourceTree = "<group>"; };
+		AC69F0E12B21E0A900A220E1 /* BottomSheetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +155,7 @@
 				AC690D002AFCE85200138E0B /* UIScrollView+MulticastDelegate.swift */,
 				AC690D022AFCEAE000138E0B /* UIScrollView.swift */,
 				AC690D042AFE4CA600138E0B /* UIView.swift */,
+				AC69F0DF2B21B36E00A220E1 /* UIViewController+Convenience.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -161,6 +166,7 @@
 				AC690CEE2AF3C38400138E0B /* BottomSheetPresentationController.swift */,
 				AC690CEC2AF3C32400138E0B /* BottomSheetTransitioningDelegate.swift */,
 				AC690CFE2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift */,
+				AC69F0E12B21E0A900A220E1 /* BottomSheetConfiguration.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -238,6 +244,7 @@
 			files = (
 				AC690CEF2AF3C38400138E0B /* BottomSheetPresentationController.swift in Sources */,
 				AC690CFF2AF7AE2C00138E0B /* BottomSheetModalDismissalHandler.swift in Sources */,
+				AC69F0E02B21B36E00A220E1 /* UIViewController+Convenience.swift in Sources */,
 				AC690CD02AF2637000138E0B /* MainViewController.swift in Sources */,
 				AC690CCC2AF2637000138E0B /* AppDelegate.swift in Sources */,
 				AC690CFB2AF7995500138E0B /* BinaryFloatingPoint.swift in Sources */,
@@ -252,6 +259,7 @@
 				AC690D052AFE4CA600138E0B /* UIView.swift in Sources */,
 				AC690CF72AF7985100138E0B /* CGRect.swift in Sources */,
 				AC690CCE2AF2637000138E0B /* SceneDelegate.swift in Sources */,
+				AC69F0E22B21E0A900A220E1 /* BottomSheetConfiguration.swift in Sources */,
 				AC690CEA2AF3B3B700138E0B /* UIButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

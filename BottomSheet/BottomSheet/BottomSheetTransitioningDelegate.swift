@@ -7,27 +7,27 @@
 
 import UIKit
 
-protocol BottomSheetPresentationControllerFactory {
+public protocol BottomSheetPresentationControllerFactory {
   func makeBottomSheetPresentationController(
     presentedViewController: UIViewController,
     presentingViewController: UIViewController?
   ) -> BottomSheetPresentationController
 }
 
-final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+public final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
 
   private weak var presentationController: BottomSheetPresentationController?
 
   private let factory: BottomSheetPresentationControllerFactory
 
-  init(factory: BottomSheetPresentationControllerFactory) {
+  public init(factory: BottomSheetPresentationControllerFactory) {
     self.factory = factory
   }
 
   // MARK: - Public Methods
 
   ///custom func presentationController, with using "_presentationController" func
-  func presentationController(
+  public func presentationController(
     forPresented presented: UIViewController,
     presenting: UIViewController?,
     source: UIViewController
@@ -37,7 +37,7 @@ final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransiti
 
   // MARK: - UIViewControllerTransitioningDelegate (Animation of bottomSheet)
 
-  func animationController(
+  public func animationController(
     forPresented presented: UIViewController,
     presenting: UIViewController,
     source: UIViewController
@@ -45,7 +45,7 @@ final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransiti
     presentationController
   }
 
-  func animationController(
+  public func animationController(
     forDismissed dismissed: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
     presentationController
@@ -53,11 +53,11 @@ final class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransiti
 
   // MARK: - swiping for bottomSheet
 
-  func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+  public func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
       presentationController?.interactiveTransitioning
   }
 
-  func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+  public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
       presentationController?.interactiveTransitioning
   }
 }
